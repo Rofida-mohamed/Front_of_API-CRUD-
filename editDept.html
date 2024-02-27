@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
+
+    <title>Create Department</title>
+</head>
+<body>
+    <!-- {
+        "name": "string",
+        "loaction": "string",
+        "manger": "string"
+      } -->
+    <div class="m-3 p-3">
+        <h4>Add Department</h4>
+        <form class="formstd w-50" method="post" >
+            <div class="form-group">
+              <label for="nameid">Name</label>
+              <input type="text" class="form-control" id="nameid" name="name" >
+            </div>
+              <div class="form-group">
+                <label for="loactionid">Location</label>
+                <input type="text" class="form-control" id="loactionid" name="loaction" >
+              </div>
+              <div class="form-group">
+                <label for="mangerid">Manager</label>
+                <input type="text" class="form-control" id="mangerid" name="manger" >
+              </div>
+            
+            
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+    </div>
+    
+    <script>
+               document.addEventListener('DOMContentLoaded', function () {
+            // Extract data from URL parameters
+
+            var urlParams = new URLSearchParams(window.location.search);
+
+
+            var deptJson = urlParams.get('dept');
+
+            // Parse the JSON string to get the student object
+            const dept = JSON.parse(decodeURIComponent(deptJson));
+
+            console.log(dept)
+            
+            document.getElementById('nameid').value =dept.depat_Name ;
+            document.getElementById('loactionid').value = dept.depat_Loaction;
+            document.getElementById('mangerid').value = dept.depat_Manger;
+            
+
+
+            const formstd = document.querySelector(".formstd");
+
+            formstd.addEventListener('submit', async event => {
+                event.preventDefault();
+
+                const formData = new FormData(formstd);
+                const data = Object.fromEntries(formData);
+
+                try {
+                    const response = await fetch('http://localhost:5148/api/Department/'+dept.depat_No, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        window.location.href = 'department.html';
+                    } else {
+                        console.error('Error submitting form:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error submitting form:', error.message);
+                }
+            });
+
+        });
+    </script>
+    
+</body>
+</html>

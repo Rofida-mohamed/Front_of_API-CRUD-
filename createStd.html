@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
+
+    <title>Add Student</title>
+</head>
+<body>
+    <!-- {
+        "name": "hiiiiii",
+        "age": 0,
+        "address": "string",
+        "image": "string",
+        "deptId": 4
+      } -->
+    <div class="m-3 p-3">
+        <h4>Add Student</h4>
+        <form class="formstd w-50" method="post" >
+            <div class="form-group">
+              <label for="nameid">Name</label>
+              <input type="text" class="form-control" id="nameid" name="name" >
+            </div>
+            <div class="form-group">
+                <label for="ageid">Age</label>
+                <input type="number" class="form-control" id="ageid" name="age" >
+              </div>
+              <div class="form-group">
+                <label for="adressid">Address</label>
+                <input type="text" class="form-control" id="adressid" name="address" >
+              </div>
+              <div class="form-group">
+                <label for="imgid">Image Url</label>
+                <input type="url" class="form-control" id="imgid" name="image" >
+              </div>
+              <div class="form-group">
+                <label for="deptnoid">Dept No</label>
+                <input type="number" class="form-control" id="deptnoid" name="deptId" >
+              </div>
+            
+            
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+    </div>
+    
+    <script>
+        const formstd = document.querySelector(".formstd");
+    
+        formstd.addEventListener('submit', async event => {
+            event.preventDefault();
+    
+            const formData = new FormData(formstd);
+            const data = Object.fromEntries(formData);
+    
+            try {
+                const response = await fetch('http://localhost:5148/api/Student', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+    
+                if (response.ok) {
+                    window.location.href = 'Student.html';
+                } else {
+                    console.error('Error submitting form:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error.message);
+            }
+        });
+    </script>
+    
+</body>
+</html>
